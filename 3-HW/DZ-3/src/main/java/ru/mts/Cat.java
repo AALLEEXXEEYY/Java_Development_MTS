@@ -6,10 +6,6 @@ public class Cat extends Pet{
 
     public Cat(String breed, String name, String character, BigDecimal cost) {
         super(breed, name, character, cost);
-        System.out.print(breed+", ");
-        System.out.print(name+", ");
-        System.out.print(character+", ");
-        System.out.println(cost);
 
     }
 

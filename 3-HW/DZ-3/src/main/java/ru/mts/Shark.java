@@ -6,9 +6,6 @@ import java.math.BigDecimal;
 public class Shark extends Predator {
     public Shark(String breed, String name, String character) {
         super(breed, name, character);
-        System.out.print(breed+", ");
-        System.out.print(name+", ");
-        System.out.println(character);
     }
 
 

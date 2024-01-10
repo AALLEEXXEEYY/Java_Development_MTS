@@ -7,9 +7,6 @@ public class Wolf extends Predator{
 
     public Wolf(String breed, String name, String character) {
         super(breed, name, character);
-        System.out.print(breed+", ");
-        System.out.print(name+", ");
-        System.out.println(character);
     }
 
 

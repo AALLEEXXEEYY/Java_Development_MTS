@@ -6,7 +6,7 @@ public class Main {
 
         animalService.createAnimals();
 
-        animalService.createAnimals(10);
+        animalService.createAnimals(11);
 
         animalService.createAnimalsImpl();
     }

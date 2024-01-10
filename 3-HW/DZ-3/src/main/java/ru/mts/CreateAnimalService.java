@@ -7,31 +7,32 @@ import static java.lang.Math.round;
 public interface CreateAnimalService {
 
     default  void createAnimals(){
-        int i = 0;
-        while (i<10){
+        int i = 1;
+        while (i<11){
             Animal animal = randomAnimal(i);
+            System.out.println(i+")"+" "+animal);
             i++;
         }
     }
 
-    default Animal randomAnimal(int i){
+    default  Animal randomAnimal(int i){
 
-        switch ((int)(round(Math.random()*4) % 4)){
+        switch ((int)(round(Math.random()*2) % 4)){
             case 0:{
-                return new Dog((i+1)+") Breed","Dog", "Character", BigDecimal.valueOf(i*200));
-            }
+                return new Dog(" Breed","Dog", "Character", BigDecimal.valueOf(i*200));
+            }git 
             case 1:{
-                return new Cat((i+1)+") Breed","Cat","Character",BigDecimal.valueOf(i*100));
+                return new Cat(" Breed","Cat","Character",BigDecimal.valueOf(i*100));
             }
             case 2:{
-                return new Wolf((i+1)+") Breed","Wolf","Character");
+                return new Wolf(" Breed","Wolf","Character");
             }
             case 3:{
-                return new Shark((i+1)+") Breed","Shark","Character");
+                return new Shark(" Breed","Shark","Character");
             }
 
         }
-        return null;
+         return null;
     }
 
 }
