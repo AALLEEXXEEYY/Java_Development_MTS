@@ -35,7 +35,7 @@ public interface CreateAnimalService {
 
     default  Animal[] createAnimals(){
         Animal[] animals = new Animal[100];
-        int i = 1;
+        int i = 0;
         while (i<101){
             animals[i] = randomAnimal(getRandomAnimalType(i));
             i++;
@@ -44,7 +44,7 @@ public interface CreateAnimalService {
     }
 
     default Animal randomAnimal(AnimalType type){
-        LocalDate birthDate = LocalDate.now().minusDays((long)(365*2*Math.random()));
+
         Animal animal = null;
         switch (type){
             case DOG:{
@@ -63,6 +63,8 @@ public interface CreateAnimalService {
                 animal = new Shark("Breed","SHARK","Character");
                 break;
             }
+            default:
+                throw new IllegalArgumentException("Неизвестный тип животного: " + type);
         }
         return animal;
     }

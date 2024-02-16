@@ -12,7 +12,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
 
     @Override
     public Animal[] createAnimals() {
-        int i = 1;
+        int i = 0;
         Animal[] animals = new Animal[100];
         do {
             animals[i] = randomAnimal(getRandomAnimalType(i));
