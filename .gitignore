@@ -7,6 +7,4 @@ gradlew
 gradlew.bat
 mts_homework.iml
 settings.gradle
-build/
-build.gradle.kts
 settings.gradle.kts
