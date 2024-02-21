@@ -1,0 +1,10 @@
+.gradle
+out
+.idea
+gradle
+build.gradle
+gradlew
+gradlew.bat
+mts_homework.iml
+settings.gradle
+settings.gradle.kts
