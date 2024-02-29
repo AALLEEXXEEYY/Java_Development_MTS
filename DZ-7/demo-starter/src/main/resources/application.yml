@@ -1,0 +1,7 @@
+properties:
+  animal:
+    names:
+      catName: Cat1,Cat2,Cat3
+      dogName: Dog1,Dog2,Dog3
+      wolfName: Wolf1,Wolf2,Wolf3
+      sharkName: Shark1,Shark2,Shark3
