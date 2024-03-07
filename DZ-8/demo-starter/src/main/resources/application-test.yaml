@@ -1,0 +1,7 @@
+properties:
+  animal:
+    names:
+      catName: Cat_test
+      dogName: Dog_test
+      wolfName: Wolf_test
+      sharkName: Shark_test

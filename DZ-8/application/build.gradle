@@ -1,0 +1,33 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'ru.mts'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation project(	':demo-starter')
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.4'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
