@@ -6,6 +6,10 @@ import ru.mts.dz7.animals.*;
 import ru.mts.dz7.config.CreateServiceProperties;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
@@ -45,7 +49,6 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         return animal;
     }
 
-
     public BigDecimal getCatCost(){
         Cat cat=new Cat("Breed","CAT", "Character", BigDecimal.valueOf(100));
         return cat.getCost();
@@ -68,6 +71,45 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
         return wolf.getCost();
 
     }
+
+    @Override
+    public Map<String, List<Animal>> createAnimals() {
+        var result = new HashMap<String,List<Animal>>();
+        for (int i = 0; i < 5; i++) {
+            int j = 0;
+            AnimalType animalType = getRandomAnimalType();
+            List<Animal> animals = new ArrayList<>();
+            do {
+                animals.add(CreateAnimalService.randomAnimal(animalType));
+                j++;
+            }while (j<3);
+            result.put(animalType.getTypeName().toString(),animals);
+        }
+        return result;
+    }
+
+    public Map<String, List<Animal>> createAnimals(int number){
+        var result = new HashMap<String,List<Animal>>();
+        for (int i = 0; i < number; i++) {
+            AnimalType animalType = getRandomAnimalType();
+            List<Animal> animals;
+            if(result.containsKey(animalType.getTypeName())){
+                animals= result.get(animalType.getTypeName());
+            }
+            else {
+                animals = new ArrayList<>();
+                result.put(animalType.getTypeName().toString(),animals);
+            }
+            animals.add(CreateAnimalService.randomAnimal(animalType));
+
+        }
+        return result;
+    }
+
+    public Map<String, List<Animal>> createAnimalsImpl(){
+        return CreateAnimalService.super.createAnimals();
+    }
+
 
 
 

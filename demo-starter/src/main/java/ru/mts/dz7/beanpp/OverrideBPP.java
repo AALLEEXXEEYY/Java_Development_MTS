@@ -15,7 +15,7 @@ public class OverrideBPP implements BeanPostProcessor {
             throws BeansException {
         if (bean instanceof CreateAnimalServiceImpl){
             CreateAnimalServiceImpl createAnimalServiceImpl = (CreateAnimalServiceImpl) bean;
-            createAnimalServiceImpl.setType(createAnimalServiceImpl.getRandomAnimalType(1));
+            createAnimalServiceImpl.setType(createAnimalServiceImpl.getRandomAnimalType());
             return createAnimalServiceImpl;
         }
         return bean;

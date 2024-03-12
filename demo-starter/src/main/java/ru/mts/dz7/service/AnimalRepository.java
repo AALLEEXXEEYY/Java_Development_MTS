@@ -3,15 +3,17 @@ package ru.mts.dz7.service;
 
 import ru.mts.dz7.animals.Animal;
 
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 public interface AnimalRepository {
 
-    Animal[] printAllAnimals();
-    String [] findLeapYearNames();
-    Animal [] findOlderAnimal(int age);
-    Set<Animal> findDuplicate();
-    void printDublicate();
+    List<Animal> printAllAnimals();
+    Map<String, LocalDate> findLeapYearNames();
+    Map<Animal,Integer> findOlderAnimal(int age);
+    Map<String,Integer> findDuplicate();
+    void printDuplicate();
 
 
 

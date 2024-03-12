@@ -3,6 +3,10 @@ package ru.mts.dz7.service;
 import ru.mts.dz7.animals.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.lang.Math.round;
 
@@ -10,17 +14,23 @@ public interface CreateAnimalService {
 
     public Animal getRandomAnimal();
 
-
-
-
     public enum AnimalType{
         DOG,
         CAT,
         WOLF,
-        SHARK
+        SHARK;
+
+        public AnimalType getTypeName() {
+            return this;
+        }
+
+        public static int getCountEnumAnimals() {
+            return values().length;
+        }
+
     }
 
-    default AnimalType getRandomAnimalType(int i){
+    default AnimalType getRandomAnimalType(){
         switch ((int)(round(Math.random()*4) % 4)){
             case 0:{
                 return AnimalType.WOLF;
@@ -36,16 +46,6 @@ public interface CreateAnimalService {
             }
         }
         return AnimalType.CAT;
-    }
-
-    default  Animal[] createAnimals(){
-        Animal[] animals = new Animal[100];
-        int i = 0;
-        while (i<=100){
-            animals[i] = randomAnimal(getRandomAnimalType(i));
-            i++;
-        }
-        return animals;
     }
 
     static Animal randomAnimal(AnimalType type){
@@ -75,6 +75,48 @@ public interface CreateAnimalService {
 
 
 
+    }
+
+    /***
+     * Функция реализована таким образом, чтобы создать HashMap который содержит рандомных животных в колличестве 5 шт
+     *
+     * @return
+     * Словарь рандомных животных
+     */
+
+    default Map<String, List<Animal>> createAnimals(){
+        Map<String, List<Animal>> result = new HashMap<>();
+        for (int j = 0; j < 3; j++) {
+            AnimalType animalType = getRandomAnimalType();
+            List<Animal> animals = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                animals.add(randomAnimal(animalType));
+            }
+            result.put(animalType.getTypeName().toString(),animals);
+        }
+        return result;
+    }
+
+    /***
+     * Функция реализована таким образом, чтобы создать HashMap который содержит все виды животных
+     * @return
+     * сдоварь содержащий всех животных enum-a
+     */
+
+    default Map<String, List<Animal>> myCreateAnimals(){
+        Map<String, List<Animal>> result = new HashMap<>();
+
+        while (AnimalType.getCountEnumAnimals() != result.size()){
+            AnimalType animalType = getRandomAnimalType();
+            List<Animal> animals = new ArrayList<>();
+            for (int i = 0; i < 1; i++) {
+                animals.add(randomAnimal(animalType));
+            }
+            result.put(animalType.getTypeName().toString(),animals);
+
+        }
+
+        return result;
     }
 
     default String getRandomName(String[] names){
