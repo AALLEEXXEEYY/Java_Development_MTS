@@ -13,7 +13,7 @@ public abstract class AbstractAnimal implements Animal {
     protected LocalDate birthDate;
 
     public AbstractAnimal(){
-        birthDate = LocalDate.now().minusDays((long)(365*4*Math.random()));
+        birthDate = LocalDate.now().minusDays((long)(365*10*Math.random()));
     }
 
     public void setName(String name) {

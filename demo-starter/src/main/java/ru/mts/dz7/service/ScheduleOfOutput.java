@@ -45,6 +45,26 @@ public class ScheduleOfOutput {
         System.out.println();
         animalsRepository.printDuplicate();
 
+        System.out.println();
+
+
+        System.out.println("Find average age animals:");
+        System.out.println();
+        System.out.println("Average age animals: "+ animalsRepository.findAverageAge());
+        System.out.println();
+
+
+        System.out.println("Find Older and expensive animals: ");
+        System.out.println();
+        System.out.println(animalsRepository.findOldAndExpensive());
+        System.out.println();
+
+        System.out.println("Find min const animals:");
+        System.out.println();
+        System.out.println(animalsRepository.findMinConstAnimals());
+
+
+
     }
 
 

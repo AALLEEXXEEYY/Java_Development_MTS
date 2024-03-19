@@ -3,10 +3,7 @@ package ru.mts.dz7.service;
 import ru.mts.dz7.animals.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Math.round;
 
@@ -53,11 +50,11 @@ public interface CreateAnimalService {
         Animal animal = null;
         switch (type){
             case DOG:{
-                animal = new Dog("Breed","DOG","Character", BigDecimal.valueOf(100));
+                animal = new Dog("Breed","DOG","Character", BigDecimal.valueOf(new Random().nextInt(400)));
                 break;
             }
             case CAT:{
-                animal = new Cat("Breed","CAT", "Character", BigDecimal.valueOf(100));
+                animal = new Cat("Breed","CAT", "Character", BigDecimal.valueOf(new Random().nextInt(300)));
                 break;
             }
             case WOLF:{

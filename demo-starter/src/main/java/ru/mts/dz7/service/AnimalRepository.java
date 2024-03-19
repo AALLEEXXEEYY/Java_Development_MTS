@@ -12,8 +12,12 @@ public interface AnimalRepository {
     List<Animal> printAllAnimals();
     Map<String, LocalDate> findLeapYearNames();
     Map<Animal,Integer> findOlderAnimal(int age);
-    Map<String,Integer> findDuplicate();
+    Map<String,List<Animal>> findDuplicate();
     void printDuplicate();
+    double findAverageAge();
+    List<Animal> findOldAndExpensive();
+    List<String> findMinConstAnimals();
+
 
 
 

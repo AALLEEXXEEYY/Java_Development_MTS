@@ -14,10 +14,8 @@ import ru.mts.dz7.service.AnimalRepositoryImpl;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,12 +28,12 @@ public class AnimalRepositoryTest {
     public void initRepository() {
 
         animalsRepository.animals = new ArrayList<>();
-        animalsRepository.animals.add(new Dog("1","1", "1",BigDecimal.valueOf(1000)));
-        animalsRepository.animals.add(new Dog("2","2", "2",BigDecimal.valueOf(1000)));
-        animalsRepository.animals.add(new Dog("3","3", "3",BigDecimal.valueOf(1000)));
-        animalsRepository.animals.add(new Dog("4","4", "4",BigDecimal.valueOf(1000)));
-        animalsRepository.animals.add(new Cat("5","5", "5",BigDecimal.valueOf(1000)));
-        animalsRepository.animals.add(new Cat("6","6", "6",BigDecimal.valueOf(1000)));
+        animalsRepository.animals.add(new Dog("1","1", "1",BigDecimal.valueOf(1200)));
+        animalsRepository.animals.add(new Dog("2","2", "2",BigDecimal.valueOf(2000)));
+        animalsRepository.animals.add(new Dog("3","3", "3",BigDecimal.valueOf(600)));
+        animalsRepository.animals.add(new Dog("4","4", "4",BigDecimal.valueOf(500)));
+        animalsRepository.animals.add(new Cat("5","5", "5",BigDecimal.valueOf(1500)));
+        animalsRepository.animals.add(new Cat("6","6", "6",BigDecimal.valueOf(1)));
         animalsRepository.animals.add(new Shark("7","7", "7"));
         animalsRepository.animals.add(new Shark("8","8", "8"));
 
@@ -83,9 +81,47 @@ public class AnimalRepositoryTest {
     @DisplayName("Test for search duplicate animals")
     void testFindDuplicate() {
 
-        Map<String, Integer> result =animalsRepository.findDuplicate();
+        Map<String, List<Animal>> result =animalsRepository.findDuplicate();
 
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void findAvgAgeTest(){
+        int totalYears = 0;
+        for (Animal animal : animalsRepository.animals) {
+            totalYears += Period.between(animal.getBirthDate(), LocalDate.now()).getYears();
+        }
+        double expectedAverageAge = (double) totalYears / animalsRepository.animals.size();
+        assertEquals(expectedAverageAge, animalsRepository.findAverageAge());
+    }
+    @Test
+    void findOldAndExpensiveTest(){
+        List<Animal> expectedAnimals = new ArrayList<>();
+        animalsRepository.animals.get(0).setBirthDate(LocalDate.now().minusYears(7));
+        animalsRepository.animals.get(1).setBirthDate(LocalDate.now().minusYears(8));
+        animalsRepository.animals.get(4).setBirthDate(LocalDate.now().minusYears(9));
+        expectedAnimals.add(animalsRepository.animals.get(0));
+        expectedAnimals.add(animalsRepository.animals.get(1));
+        expectedAnimals.add(animalsRepository.animals.get(4));
+
+
+        Collections.sort(expectedAnimals,Comparator.comparing(Animal::getBirthDate));
+        assertEquals(expectedAnimals,animalsRepository.findOldAndExpensive());
+
+    }
+    @Test
+    void findMinCostTest(){
+        List<String> expectedNames = new ArrayList<>();
+        expectedNames.add("5");
+        expectedNames.add("1");
+        expectedNames.add("2");
+
+        List<String> resultNames = animalsRepository.findMinConstAnimals();
+
+        Collections.sort(expectedNames);
+        Collections.sort(resultNames);
+        assertEquals(expectedNames, resultNames);
     }
 
 }
