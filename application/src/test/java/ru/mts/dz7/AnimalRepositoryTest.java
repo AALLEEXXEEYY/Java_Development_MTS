@@ -4,12 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.mts.dz7.animals.*;
-import ru.mts.dz7.exeptions.CustomException;
+import ru.mts.dz7.exeptions.EmptyAnimalListException;
 import ru.mts.dz7.exeptions.CustomIllegalArgumentException;
 import ru.mts.dz7.service.AnimalRepositoryImpl;
 
@@ -17,7 +15,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -63,8 +60,8 @@ public class AnimalRepositoryTest {
             assertEquals(LocalDate.of(2020, 1, 6), result.get("5"));
             assertEquals(LocalDate.of(2024, 1, 25), result.get("7"));
         }
-        catch (CustomException e) {
-            Assertions.assertThrows(CustomException.class,()->{
+        catch (EmptyAnimalListException e) {
+            Assertions.assertThrows(EmptyAnimalListException.class,()->{
                 animalsRepository.findDuplicate();
             });
         }
@@ -93,8 +90,8 @@ public class AnimalRepositoryTest {
                 animalsRepository.findOlderAnimal(age);
             });
         }
-        catch (CustomException ex){
-            Assertions.assertThrows(CustomException.class,()->{
+        catch (EmptyAnimalListException ex){
+            Assertions.assertThrows(EmptyAnimalListException.class,()->{
                 animalsRepository.findOlderAnimal(age);
             });
         }
@@ -110,8 +107,8 @@ public class AnimalRepositoryTest {
 
             assertTrue(result.isEmpty());
         }
-        catch (CustomException e) {
-            Assertions.assertThrows(CustomException.class, () -> {
+        catch (EmptyAnimalListException e) {
+            Assertions.assertThrows(EmptyAnimalListException.class, () -> {
                 animalsRepository.findDuplicate();
             });
         }
@@ -129,8 +126,8 @@ public class AnimalRepositoryTest {
             double expectedAverageAge = (double) totalYears / animalsRepository.animals.size();
             assertEquals(expectedAverageAge, animalsRepository.findAverageAge());
         }
-        catch (CustomException e) {
-            Assertions.assertThrows(CustomException.class,()->{
+        catch (EmptyAnimalListException e) {
+            Assertions.assertThrows(EmptyAnimalListException.class,()->{
                 animalsRepository.findAverageAge();
             });
         }
@@ -153,8 +150,8 @@ public class AnimalRepositoryTest {
             Collections.sort(expectedAnimals, Comparator.comparing(Animal::getBirthDate));
             assertEquals(expectedAnimals, animalsRepository.findOldAndExpensive());
         }
-        catch (CustomException e) {
-            Assertions.assertThrows(CustomException.class,()->{
+        catch (EmptyAnimalListException e) {
+            Assertions.assertThrows(EmptyAnimalListException.class,()->{
                 animalsRepository.findOldAndExpensive();
             });
         }
@@ -177,8 +174,8 @@ public class AnimalRepositoryTest {
             Collections.sort(resultNames);
             assertEquals(expectedNames, resultNames);
         }
-        catch (CustomException e) {
-            Assertions.assertThrows(CustomException.class,()->{
+        catch (EmptyAnimalListException e) {
+            Assertions.assertThrows(EmptyAnimalListException.class,()->{
                 animalsRepository.findMinConstAnimals();
             });
         }

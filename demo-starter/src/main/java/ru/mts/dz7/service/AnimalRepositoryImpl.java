@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Repository;
 import ru.mts.dz7.animals.AbstractAnimal;
 import ru.mts.dz7.animals.Animal;
-import ru.mts.dz7.exeptions.CustomException;
+import ru.mts.dz7.exeptions.EmptyAnimalListException;
 import ru.mts.dz7.exeptions.CustomIllegalArgumentException;
 
 import java.math.BigDecimal;
@@ -16,7 +16,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.Map;
-import java.util.Map.Entry;
 
 @Repository
 public class AnimalRepositoryImpl implements AnimalRepository{
@@ -44,9 +43,9 @@ public class AnimalRepositoryImpl implements AnimalRepository{
     }
 
     @Override
-    public List<Animal> printAllAnimals() throws CustomException {
+    public List<Animal> printAllAnimals() throws EmptyAnimalListException {
         if (animals.isEmpty()){
-            throw new CustomException(0);
+            throw new EmptyAnimalListException();
         }
         for (int i=0;i<animals.size();i++){
             System.out.println(i+1+") "+ animals.get(i));
@@ -66,9 +65,9 @@ public class AnimalRepositoryImpl implements AnimalRepository{
 //    }
 
     @Override
-    public Map<String, LocalDate> findLeapYearNames()throws CustomException{
+    public Map<String, LocalDate> findLeapYearNames()throws EmptyAnimalListException {
         if (animals.isEmpty()){
-            throw new CustomException(0);
+            throw new EmptyAnimalListException();
         }
         return animals.stream()
                 .filter(animal -> animal.getBirthDate().isLeapYear())
@@ -101,12 +100,12 @@ public class AnimalRepositoryImpl implements AnimalRepository{
 
 
     @Override
-    public Map<Animal,Integer> findOlderAnimal(int age) throws CustomException, CustomIllegalArgumentException {
+    public Map<Animal,Integer> findOlderAnimal(int age) throws EmptyAnimalListException, CustomIllegalArgumentException {
         if (age<=0){
             throw new CustomIllegalArgumentException(age);
         }
         if (animals.isEmpty()){
-            throw new CustomException(0);
+            throw new EmptyAnimalListException();
         }
         Map<Animal, Integer> findedanimals = animals.stream()
                 .filter(animal -> (Period.between(animal.getBirthDate(), LocalDate.now()).getYears()) > age)
@@ -141,9 +140,9 @@ public class AnimalRepositoryImpl implements AnimalRepository{
 //    }
 
     @Override
-    public Map<String, List<Animal>> findDuplicate() throws CustomException {
+    public Map<String, List<Animal>> findDuplicate() throws EmptyAnimalListException {
         if (animals.isEmpty()){
-            throw new CustomException(0);
+            throw new EmptyAnimalListException();
         }
 
         return animals.stream()
@@ -158,9 +157,9 @@ public class AnimalRepositoryImpl implements AnimalRepository{
 
 
     @Override
-    public void printDuplicate() throws CustomException {
+    public void printDuplicate() throws EmptyAnimalListException {
         if (animals.isEmpty()){
-            throw new CustomException(0);
+            throw new EmptyAnimalListException();
         }
         Map<String, List<Animal>> duplicates = findDuplicate();
         for(Map.Entry<String, List<Animal>> keyValue:duplicates.entrySet()){
@@ -170,9 +169,9 @@ public class AnimalRepositoryImpl implements AnimalRepository{
 
 
     @Override
-    public double findAverageAge() throws CustomException {
+    public double findAverageAge() throws EmptyAnimalListException {
         if (animals.isEmpty()){
-            throw new CustomException(0);
+            throw new EmptyAnimalListException();
         }
         return animals.stream()
                 .mapToInt(animal -> Period.between(animal.getBirthDate(), LocalDate.now()).getYears())
@@ -181,9 +180,9 @@ public class AnimalRepositoryImpl implements AnimalRepository{
     }
 
     @Override
-    public List<Animal> findOldAndExpensive() throws CustomException {
+    public List<Animal> findOldAndExpensive() throws EmptyAnimalListException {
         if (animals.isEmpty()){
-            throw new CustomException(0);
+            throw new EmptyAnimalListException();
         }
 
         BigDecimal averagePrice = animals.stream()
@@ -201,9 +200,9 @@ public class AnimalRepositoryImpl implements AnimalRepository{
     }
 
     @Override
-    public List<String> findMinConstAnimals()throws CustomException {
+    public List<String> findMinConstAnimals()throws EmptyAnimalListException {
         if (animals.isEmpty()){
-            throw new CustomException(0);
+            throw new EmptyAnimalListException();
         }
         return animals.stream()
                 .filter(animal -> Objects.nonNull(animal.getCost()))

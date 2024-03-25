@@ -1,16 +1,14 @@
 package ru.mts.dz7.service;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import ru.mts.dz7.animals.Animal;
-import ru.mts.dz7.exeptions.CustomException;
+import ru.mts.dz7.exeptions.EmptyAnimalListException;
 import ru.mts.dz7.exeptions.CustomIllegalArgumentException;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 public class ScheduleOfOutput {
@@ -69,7 +67,7 @@ public class ScheduleOfOutput {
             System.out.println(animalsRepository.findMinConstAnimals());
         }
 
-        catch (CustomException e) {
+        catch (EmptyAnimalListException e) {
             System.out.println(e.getMessage());
 
         }
