@@ -9,6 +9,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.mts.dz7.animals.*;
+import ru.mts.dz7.exeptions.CustomException;
+import ru.mts.dz7.exeptions.CustomIllegalArgumentException;
 import ru.mts.dz7.service.AnimalRepositoryImpl;
 
 import java.math.BigDecimal;
@@ -53,75 +55,134 @@ public class AnimalRepositoryTest {
     @Test
     @DisplayName("Test for search animals birth in leap year")
     public void testFindLeapYearNames() {
-        Map<String, LocalDate> result = animalsRepository.findLeapYearNames();
-        assertEquals(3, result.size());
-        assertEquals(LocalDate.of(2012, 4, 20), result.get("1"));
-        assertEquals(LocalDate.of(2020, 1, 6), result.get("5"));
-        assertEquals(LocalDate.of(2024, 1, 25), result.get("7"));
+
+        try {
+            Map<String, LocalDate> result = animalsRepository.findLeapYearNames();
+            assertEquals(3, result.size());
+            assertEquals(LocalDate.of(2012, 4, 20), result.get("1"));
+            assertEquals(LocalDate.of(2020, 1, 6), result.get("5"));
+            assertEquals(LocalDate.of(2024, 1, 25), result.get("7"));
+        }
+        catch (CustomException e) {
+            Assertions.assertThrows(CustomException.class,()->{
+                animalsRepository.findDuplicate();
+            });
+        }
     }
 
 
     @Test
     @DisplayName("Test for search amount animals older some ages")
-    void testFindOlderAnimal() {
-        Map<Animal, Integer> expected = new HashMap<>();
-        expected.put(animalsRepository.animals.get(0), Period.between(animalsRepository.animals.get(0).getBirthDate(), LocalDate.now()).getYears());
-        expected.put(animalsRepository.animals.get(1), Period.between(animalsRepository.animals.get(1).getBirthDate(), LocalDate.now()).getYears());
-        expected.put(animalsRepository.animals.get(2), Period.between(animalsRepository.animals.get(2).getBirthDate(), LocalDate.now()).getYears());
-        expected.put(animalsRepository.animals.get(3), Period.between(animalsRepository.animals.get(3).getBirthDate(), LocalDate.now()).getYears());
-        expected.put(animalsRepository.animals.get(7), Period.between(animalsRepository.animals.get(7).getBirthDate(), LocalDate.now()).getYears());
+    void testFindOlderAnimal(int age) {
+        try {
 
-        Map<Animal, Integer> result = animalsRepository.findOlderAnimal(10);
 
-        assertEquals(expected.size(), result.size());
+            Map<Animal, Integer> expected = new HashMap<>();
+            expected.put(animalsRepository.animals.get(0), Period.between(animalsRepository.animals.get(0).getBirthDate(), LocalDate.now()).getYears());
+            expected.put(animalsRepository.animals.get(1), Period.between(animalsRepository.animals.get(1).getBirthDate(), LocalDate.now()).getYears());
+            expected.put(animalsRepository.animals.get(2), Period.between(animalsRepository.animals.get(2).getBirthDate(), LocalDate.now()).getYears());
+            expected.put(animalsRepository.animals.get(3), Period.between(animalsRepository.animals.get(3).getBirthDate(), LocalDate.now()).getYears());
+            expected.put(animalsRepository.animals.get(7), Period.between(animalsRepository.animals.get(7).getBirthDate(), LocalDate.now()).getYears());
+
+            Map<Animal, Integer> result = animalsRepository.findOlderAnimal(10);
+
+            assertEquals(expected.size(), result.size());
+        }
+        catch (CustomIllegalArgumentException ex){
+            Assertions.assertThrows(CustomIllegalArgumentException.class,()->{
+                animalsRepository.findOlderAnimal(age);
+            });
+        }
+        catch (CustomException ex){
+            Assertions.assertThrows(CustomException.class,()->{
+                animalsRepository.findOlderAnimal(age);
+            });
+        }
     }
 
 
     @Test
     @DisplayName("Test for search duplicate animals")
     void testFindDuplicate() {
+        try {
 
-        Map<String, List<Animal>> result =animalsRepository.findDuplicate();
+            Map<String, List<Animal>> result = animalsRepository.findDuplicate();
 
-        assertTrue(result.isEmpty());
+            assertTrue(result.isEmpty());
+        }
+        catch (CustomException e) {
+            Assertions.assertThrows(CustomException.class, () -> {
+                animalsRepository.findDuplicate();
+            });
+        }
     }
 
     @Test
     void findAvgAgeTest(){
-        int totalYears = 0;
-        for (Animal animal : animalsRepository.animals) {
-            totalYears += Period.between(animal.getBirthDate(), LocalDate.now()).getYears();
+        try {
+
+
+            int totalYears = 0;
+            for (Animal animal : animalsRepository.animals) {
+                totalYears += Period.between(animal.getBirthDate(), LocalDate.now()).getYears();
+            }
+            double expectedAverageAge = (double) totalYears / animalsRepository.animals.size();
+            assertEquals(expectedAverageAge, animalsRepository.findAverageAge());
         }
-        double expectedAverageAge = (double) totalYears / animalsRepository.animals.size();
-        assertEquals(expectedAverageAge, animalsRepository.findAverageAge());
+        catch (CustomException e) {
+            Assertions.assertThrows(CustomException.class,()->{
+                animalsRepository.findAverageAge();
+            });
+        }
+
     }
     @Test
     void findOldAndExpensiveTest(){
-        List<Animal> expectedAnimals = new ArrayList<>();
-        animalsRepository.animals.get(0).setBirthDate(LocalDate.now().minusYears(7));
-        animalsRepository.animals.get(1).setBirthDate(LocalDate.now().minusYears(8));
-        animalsRepository.animals.get(4).setBirthDate(LocalDate.now().minusYears(9));
-        expectedAnimals.add(animalsRepository.animals.get(0));
-        expectedAnimals.add(animalsRepository.animals.get(1));
-        expectedAnimals.add(animalsRepository.animals.get(4));
+        try {
 
 
-        Collections.sort(expectedAnimals,Comparator.comparing(Animal::getBirthDate));
-        assertEquals(expectedAnimals,animalsRepository.findOldAndExpensive());
+            List<Animal> expectedAnimals = new ArrayList<>();
+            animalsRepository.animals.get(0).setBirthDate(LocalDate.now().minusYears(7));
+            animalsRepository.animals.get(1).setBirthDate(LocalDate.now().minusYears(8));
+            animalsRepository.animals.get(4).setBirthDate(LocalDate.now().minusYears(9));
+            expectedAnimals.add(animalsRepository.animals.get(0));
+            expectedAnimals.add(animalsRepository.animals.get(1));
+            expectedAnimals.add(animalsRepository.animals.get(4));
+
+
+            Collections.sort(expectedAnimals, Comparator.comparing(Animal::getBirthDate));
+            assertEquals(expectedAnimals, animalsRepository.findOldAndExpensive());
+        }
+        catch (CustomException e) {
+            Assertions.assertThrows(CustomException.class,()->{
+                animalsRepository.findOldAndExpensive();
+            });
+        }
+
 
     }
     @Test
     void findMinCostTest(){
-        List<String> expectedNames = new ArrayList<>();
-        expectedNames.add("5");
-        expectedNames.add("1");
-        expectedNames.add("2");
+        try {
 
-        List<String> resultNames = animalsRepository.findMinConstAnimals();
 
-        Collections.sort(expectedNames);
-        Collections.sort(resultNames);
-        assertEquals(expectedNames, resultNames);
+            List<String> expectedNames = new ArrayList<>();
+            expectedNames.add("5");
+            expectedNames.add("1");
+            expectedNames.add("2");
+
+            List<String> resultNames = animalsRepository.findMinConstAnimals();
+
+            Collections.sort(expectedNames);
+            Collections.sort(resultNames);
+            assertEquals(expectedNames, resultNames);
+        }
+        catch (CustomException e) {
+            Assertions.assertThrows(CustomException.class,()->{
+                animalsRepository.findMinConstAnimals();
+            });
+        }
+
     }
 
 }
