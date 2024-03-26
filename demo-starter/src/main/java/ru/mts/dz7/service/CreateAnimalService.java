@@ -4,6 +4,8 @@ import ru.mts.dz7.animals.*;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.lang.Math.round;
 
@@ -82,10 +84,10 @@ public interface CreateAnimalService {
      */
 
     default Map<String, List<Animal>> createAnimals(){
-        Map<String, List<Animal>> result = new HashMap<>();
+        Map<String, List<Animal>> result = new ConcurrentHashMap<>();
         for (int j = 0; j < 3; j++) {
             AnimalType animalType = getRandomAnimalType();
-            List<Animal> animals = new ArrayList<>();
+            List<Animal> animals = new CopyOnWriteArrayList<>();
             for (int i = 0; i < 5; i++) {
                 animals.add(randomAnimal(animalType));
             }
@@ -101,11 +103,11 @@ public interface CreateAnimalService {
      */
 
     default Map<String, List<Animal>> myCreateAnimals(){
-        Map<String, List<Animal>> result = new HashMap<>();
+        Map<String, List<Animal>> result = new ConcurrentHashMap<>();
 
         while (AnimalType.getCountEnumAnimals() != result.size()){
             AnimalType animalType = getRandomAnimalType();
-            List<Animal> animals = new ArrayList<>();
+            List<Animal> animals = new CopyOnWriteArrayList<>();
             for (int i = 0; i < 1; i++) {
                 animals.add(randomAnimal(animalType));
             }

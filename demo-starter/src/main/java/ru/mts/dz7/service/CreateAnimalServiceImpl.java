@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class CreateAnimalServiceImpl implements CreateAnimalService {
@@ -74,11 +76,11 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
 
     @Override
     public Map<String, List<Animal>> createAnimals() {
-        var result = new HashMap<String,List<Animal>>();
+        var result = new ConcurrentHashMap<String,List<Animal>>();
         for (int i = 0; i < 5; i++) {
             int j = 0;
             AnimalType animalType = getRandomAnimalType();
-            List<Animal> animals = new ArrayList<>();
+            List<Animal> animals = new CopyOnWriteArrayList<>();
             do {
                 animals.add(CreateAnimalService.randomAnimal(animalType));
                 j++;
@@ -89,7 +91,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
     }
 
     public Map<String, List<Animal>> createAnimals(int number){
-        var result = new HashMap<String,List<Animal>>();
+        var result = new ConcurrentHashMap<String,List<Animal>>();
         for (int i = 0; i < number; i++) {
             AnimalType animalType = getRandomAnimalType();
             List<Animal> animals;
@@ -97,7 +99,7 @@ public class CreateAnimalServiceImpl implements CreateAnimalService {
                 animals= result.get(animalType.getTypeName());
             }
             else {
-                animals = new ArrayList<>();
+                animals = new CopyOnWriteArrayList<>();
                 result.put(animalType.getTypeName().toString(),animals);
             }
             animals.add(CreateAnimalService.randomAnimal(animalType));

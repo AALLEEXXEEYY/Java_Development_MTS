@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class AnimalRepositoryImpl implements AnimalRepository{
 
     CreateAnimalService animalService;
 
-    public List<Animal> animals= new ArrayList<>();
+    public List<Animal> animals= new CopyOnWriteArrayList<>();
     public List<Animal> getAnimals() {
         return animals;
     }

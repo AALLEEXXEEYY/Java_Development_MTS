@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +28,7 @@ public class AnimalRepositoryTest {
     @BeforeEach
     public void initRepository() {
 
-        animalsRepository.animals = new ArrayList<>();
+        animalsRepository.animals = new CopyOnWriteArrayList<>();
         animalsRepository.animals.add(new Dog("1","1", "1",BigDecimal.valueOf(1200)));
         animalsRepository.animals.add(new Dog("2","2", "2",BigDecimal.valueOf(2000)));
         animalsRepository.animals.add(new Dog("3","3", "3",BigDecimal.valueOf(600)));
@@ -74,7 +76,7 @@ public class AnimalRepositoryTest {
         try {
 
 
-            Map<Animal, Integer> expected = new HashMap<>();
+            Map<Animal, Integer> expected = new ConcurrentHashMap<>();
             expected.put(animalsRepository.animals.get(0), Period.between(animalsRepository.animals.get(0).getBirthDate(), LocalDate.now()).getYears());
             expected.put(animalsRepository.animals.get(1), Period.between(animalsRepository.animals.get(1).getBirthDate(), LocalDate.now()).getYears());
             expected.put(animalsRepository.animals.get(2), Period.between(animalsRepository.animals.get(2).getBirthDate(), LocalDate.now()).getYears());
@@ -138,7 +140,7 @@ public class AnimalRepositoryTest {
         try {
 
 
-            List<Animal> expectedAnimals = new ArrayList<>();
+            List<Animal> expectedAnimals = new CopyOnWriteArrayList<>();
             animalsRepository.animals.get(0).setBirthDate(LocalDate.now().minusYears(7));
             animalsRepository.animals.get(1).setBirthDate(LocalDate.now().minusYears(8));
             animalsRepository.animals.get(4).setBirthDate(LocalDate.now().minusYears(9));
@@ -163,7 +165,7 @@ public class AnimalRepositoryTest {
         try {
 
 
-            List<String> expectedNames = new ArrayList<>();
+            List<String> expectedNames = new CopyOnWriteArrayList<>();
             expectedNames.add("5");
             expectedNames.add("1");
             expectedNames.add("2");
